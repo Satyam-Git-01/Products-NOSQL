@@ -1,56 +1,79 @@
-const mongodb = require('mongodb');
-const getDb = require('../util/database').getDb;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const productSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  price: {
+    required: true,
+    type: Number,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+});
 
-class Product {
-  constructor(title, price, description, imageUrl) {
-    this.title = title;
-    this.price = price;
-    this.description = description;
-    this.imageUrl = imageUrl;
-  }
+module.exports = mongoose.model("products", productSchema);
 
-  save() {
-    const db = getDb();
-    return db
-      .collection('products')
-      .insertOne(this)
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+// const mongodb = require('mongodb');
+// const getDb = require('../util/database').getDb;
 
-  static fetchAll() {
-    const db = getDb();
-    return db
-      .collection('products')
-      .find()
-      .toArray()
-      .then(products => {
-        console.log(products);
-        return products;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+// class Product {
+//   constructor(title, price, description, imageUrl) {
+//     this.title = title;
+//     this.price = price;
+//     this.description = description;
+//     this.imageUrl = imageUrl;
+//   }
 
-  static findById(prodId) {
-    const db = getDb();
-    return db
-      .collection('products')
-      .find({ _id: new mongodb.ObjectId(prodId) })
-      .next()
-      .then(product => {
-        console.log(product);
-        return product;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-}
+//   save() {
+//     const db = getDb();
+//     return db
+//       .collection('products')
+//       .insertOne(this)
+//       .then(result => {
+//         console.log(result);
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   }
 
-module.exports = Product;
+//   static fetchAll() {
+//     const db = getDb();
+//     return db
+//       .collection('products')
+//       .find()
+//       .toArray()
+//       .then(products => {
+//         console.log(products);
+//         return products;
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   }
+
+//   static findById(prodId) {
+//     const db = getDb();
+//     return db
+//       .collection('products')
+//       .find({ _id: new mongodb.ObjectId(prodId) })
+//       .next()
+//       .then(product => {
+//         console.log(product);
+//         return product;
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   }
+// }
+
+// module.exports = Product;
